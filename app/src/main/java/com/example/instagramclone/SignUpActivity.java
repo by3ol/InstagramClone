@@ -2,6 +2,7 @@ package com.example.instagramclone;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private Button btnGetAllData;
     private String allKickBoxers;
+    private Button btnTransition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onClick(View v) {
                 allKickBoxers = "";
+
                 ParseQuery<ParseObject> queryAll = ParseQuery.getQuery("KickBoxer");
+//                queryAll.whereGreaterThan("punchPower",500);
+                queryAll.whereGreaterThanOrEqualTo("punchPower",300);
+                queryAll.setLimit(1);
                 queryAll.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, ParseException e) {
@@ -83,6 +89,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         }
                     }
                 });
+            }
+        });
+
+        btnTransition = findViewById(R.id.btnNextActivity);
+        btnTransition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(SignUpActivity.this, SignUpLoginActivity.class);
+                startActivity(intent);
+
             }
         });
 
